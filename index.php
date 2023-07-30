@@ -64,6 +64,9 @@ if (@$phpInput["message"]) {
     elseif (mb_strtolower($phpInput["message"]["text"]) == "откуда ты") {
         $params["text"] = "я из телеграмма";
     }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "как дела") {
+        $params["text"] = "нормально, спасибо";
+    }
     else {
         $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$phpInput["message"]["text"]}'?";
     }

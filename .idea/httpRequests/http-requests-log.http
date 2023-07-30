@@ -1,0 +1,42 @@
+GET https://bot.kaberi.ru?text=hello
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?text=1
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?hook=1
+Accept: application/json
+
+<> 2023-07-29T215754.200.html
+
+###
+
+GET https://bot.kaberi.ru?hook=0
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?hook=0
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?hook=0
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?hook=0
+Accept: application/json
+
+###
+
+GET https://bot.kaberi.ru?hook=0
+Accept: application/json
+
+###
+
