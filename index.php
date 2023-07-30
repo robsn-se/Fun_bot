@@ -67,6 +67,15 @@ if (@$phpInput["message"]) {
     elseif (mb_strtolower($phpInput["message"]["text"]) == "как дела") {
         $params["text"] = "нормально, спасибо";
     }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "как дела?") {
+        $params["text"] = "нормально, спасибо";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "сколько тебе лет?") {
+        $params["text"] = "Меня создали недавно";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "сколько тебе лет") {
+        $params["text"] = "Меня создали недавно";
+    }
     else {
         $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$phpInput["message"]["text"]}'?";
     }
