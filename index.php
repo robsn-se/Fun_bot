@@ -1,18 +1,71 @@
 <?php
-//https://api.telegram.org/bot6687997891:AAFrkwogyFCs3yPzMBcC88gIffEbs8gBYxc/getUpdates
-//https://api.telegram.org/bot6687997891:AAFrkwogyFCs3yPzMBcC88gIffEbs8gBYxc/sendMessage?chat_id=544421875&text=привет+Рубен
+require_once "config.php";
+require_once "functions.php";
 
+if (@$_GET["hook"]) {
+    setHook((bool) $_GET["hook"]);
+}
 
-const TELEGRAM_API_URL = "https://api.telegram.org/bot";
-const BOT_TOKEN = "6687997891:AAFrkwogyFCs3yPzMBcC88gIffEbs8gBYxc";
-//$params = [
-//    "chat_id" => 544421875,
-//    "text" => "hello, ruben"
-//];
-$params["chat_id"] = 544421875;
-$params["text"] = @$_GET["text"] ?: "check";
-$method = "sendMessage";
-$request = TELEGRAM_API_URL . BOT_TOKEN . "/" . $method . "?" . http_build_query($params);
-$response = file_get_contents($request);
-echo "<pre>";
-print_r(json_decode($response, JSON_UNESCAPED_UNICODE));
+if (@$_GET["text"]) {
+    $params["chat_id"] = ADMIN_ID;
+    $params["text"] = @$_GET["text"] ?: "check";
+    telegramAPIRequest("sendMessage", $params);
+}
+
+$phpInput = json_decode(file_get_contents("php://input"), true);
+
+if (!isset($phpInput["update_id"])) {
+    die();
+}
+
+addLog($phpInput, "from_telegram");
+
+if (@$phpInput["message"]) {
+    $params["chat_id"] = $phpInput["message"]["chat"]["id"];
+    if (mb_strtolower($phpInput["message"]["text"]) == "привет") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "hi") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "здарова") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "здравствуйте") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "приветствую") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "hello") {
+        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "Как дела?") {
+        $params["text"] = "Отлично, спасибо!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "Как дела") {
+        $params["text"] = "Отлично, спасибо!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "как ты?") {
+        $params["text"] = "Отлично, спасибо!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "как ты") {
+        $params["text"] = "Отлично, спасибо!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "пока") {
+        $params["text"] = "Пока, {$phpInput["message"]["from"]["first_name"]}!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "досвидания") {
+        $params["text"] = "Досвидания, {$phpInput["message"]["from"]["first_name"]}!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "что делаешь") {
+        $params["text"] = "Учу программирование!";
+    }
+    elseif (mb_strtolower($phpInput["message"]["text"]) == "откуда ты") {
+        $params["text"] = "я из телеграмма";
+    }
+    else {
+        $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$phpInput["message"]["text"]}'?";
+    }
+    telegramAPIRequest("sendMessage", $params);
+}
