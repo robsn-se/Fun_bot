@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a54c381-6310-4adc-bfaf-2daaad41a7c8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/rules.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dictionary/offensive_words" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rules.php" beforeDir="false" afterPath="$PROJECT_DIR$/rules.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +46,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/START  UP" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -71,7 +74,9 @@
       <workItem from="1690647170602" duration="21225000" />
       <workItem from="1690745818805" duration="1657000" />
       <workItem from="1690808956193" duration="2031000" />
-      <workItem from="1691081965928" duration="11272000" />
+      <workItem from="1691081965928" duration="11706000" />
+      <workItem from="1691126972538" duration="5409000" />
+      <workItem from="1691168710775" duration="8568000" />
     </task>
     <servers />
   </component>

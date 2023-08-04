@@ -2,7 +2,7 @@
 function addLog(mixed $data, string $fileName = "log"):void {
     file_put_contents(
         LOG_FOLDER ."/$fileName.log",
-        "-- " . date("H:i:s d-m-Y") . "\n" . print_r($data, true) . "\n\n",
+        "-- " . date("H:i:s d-m-Y") . "\n" . var_export($data, true) . "\n\n",
         FILE_APPEND
     );
 }
@@ -33,13 +33,50 @@ function setHook(bool $unset = false): void {
     exit();
 }
 
-//if (@$phpInput["message"]) {
-//    $params["chat_id"] = $phpInput["message"]["chat"]["id"];
-//    if ($phpInput["message"]["text"] == "привет" || "Hello" || "hi" || "здарова" || "здравствуйте" || "приветствую") {
-//        $params["text"] = "Привет, {$phpInput["message"]["from"]["first_name"]}";
-//    }
-//    else{
-//        $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понял тебя";
-//    }
-//    telegramAPIRequest("sendMessage", $params);
-//}
+function getAnswerByRules(string|int $request): string|int|null {
+    $answer = null;
+    foreach (BOT_RULES as $rule) {
+        if (in_array($request, readDictionary($rule[REQUESTS_KEY]))) {
+            $answer = getRandomWord($rule[RESPONSES_KEY][WORLDS_KEY]);
+            if (isset($rule[RESPONSES_KEY][SIGNS_KEY]))  {
+                $answer .= getRandomWord($rule[RESPONSES_KEY][SIGNS_KEY]);
+            }
+            if (isset($rule[SUB_RESPONSES_KEY])) {
+                $answer .= " " . getRandomWord($rule[SUB_RESPONSES_KEY][WORLDS_KEY]);
+                if (isset($rule[SUB_RESPONSES_KEY][SIGNS_KEY]))  {
+                    $answer .= getRandomWord($rule[SUB_RESPONSES_KEY][SIGNS_KEY]);
+                }
+            }
+        }
+    }
+    return $answer;
+}
+
+function getDictionaryArray(string $fileName): array {
+    $file = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
+    if (!$file || !trim($file)) {
+        throw new Exception("Файл {$fileName} не найден или пустой");
+    }
+    $worldsArray = explode("\n", $file);
+    if (empty($worldsArray)) {
+        throw new Exception("Файл словаря {$fileName} неправильного формата");
+    }
+    return array_map("trim", $worldsArray);
+}
+
+function getRandomWord(array|string $dictionary): string|int {
+    $dictionary = readDictionary($dictionary);
+    $word = $dictionary[rand(0, count($dictionary) - 1)];
+    if (is_string($word)) {
+//        $word[0] = mb_strtoupper($word[0]);
+        return $word;
+    }
+    return $word;
+}
+
+function readDictionary(string|array $dictionary): array {
+    if (is_string($dictionary)) {
+        $dictionary = getDictionaryArray($dictionary);
+    }
+    return $dictionary;
+}
