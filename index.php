@@ -27,6 +27,7 @@ try {
         $request = mb_strtolower($phpInput["message"]["text"]);
         $params["text"] =
             getAnswerByRules($request)
+
             ?? "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?";
         telegramAPIRequest("sendMessage", $params);
     }
