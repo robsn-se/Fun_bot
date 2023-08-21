@@ -15,12 +15,25 @@ try {
     }
 
     $phpInput = json_decode(file_get_contents("php://input"), true);
+//    "php://input"  позволяет читать необработанные данные из тела запроса, сюда приходят данные из телеграпм API
+//    file_get_contents() возвращает содержимое файла в строке,
+//    мы получаем в нашем случае данные в формате json (документация телеграмм API)
+//    json_decode декодирует наши данные формата json в ассоциативный массив(потому что параметр: associative true)
+
 
     if (!isset($phpInput["update_id"])) {
         die();
     }
+//    если уникальный идентификатор не существует, тогда код умирает
 
+
+//    далее срабатывает функция addLog($phpInput, "from_telegram")
+//    необходимо для добавления данных из Telegram в файл
+//    первый параметр - массив данных от телеграмм API;
+//    второй параметр - "from_telegram" имя файла, куда записать данные.
     addLog($phpInput, "from_telegram");
+
+
 
     if (@$phpInput["message"]) {
         $params["chat_id"] = $phpInput["message"]["chat"]["id"];
