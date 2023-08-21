@@ -28,19 +28,27 @@ try {
 
 
 //    далее срабатывает функция addLog($phpInput, "from_telegram")
-//    необходимо для добавления данных из Telegram в файл
+//    необходимо для добавления данных из Telegram в файл c логами
 //    первый параметр - массив данных от телеграмм API;
 //    второй параметр - "from_telegram" имя файла, куда записать данные.
     addLog($phpInput, "from_telegram");
 
 
-
+//  если объект "message" существует и не пустой, тогда
     if (@$phpInput["message"]) {
-        $params["chat_id"] = $phpInput["message"]["chat"]["id"];
+
+//      создаем переменную $params с ключом["chat_id"] ей присваиваем $phpInput["message"]["chat"]["id"]
+        $params["chat_id"] = $phpInput["message"]["chat"]["id"]; //"id пользователя с которым переписываемся"
+
+//      создаем переменную $request ей присваиваем результат !!$phpInput["message"]["text"]!! это сообщение от пользователя
+//      функция mb_strtolower() преобразует все символы в нижний регистр
+//      В переменной $request содержится !!!СООБЩЕНИЕ ПОЛЬЗОВАТЕЛЯ!!!
         $request = mb_strtolower($phpInput["message"]["text"]);
+
+//      переменной $params создаем новый ключ ["text"] и присваиваем ей результат условия,
+//      если getAnswerByRules($request)
         $params["text"] =
             getAnswerByRules($request)
-
             ?? "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?";
         telegramAPIRequest("sendMessage", $params);
     }

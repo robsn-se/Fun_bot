@@ -1,12 +1,21 @@
 <?php
+// функция addLog работает в качестве журнала событий
+// первый параметр любой тип данных
+// второй параметр имя файла (по умолчанию добавляется в файл "log")
 function addLog(mixed $data, string $fileName = "log"):void {
     file_put_contents(
+//      file_put_contents записывает данные в файл
         LOG_FOLDER ."/$fileName.log",
+//       filename Путь к файлу, куда записать данные.
         "-- " . date("H:i:s d-m-Y") . "\n" . var_export($data, true) . "\n\n",
+//       data Данные для записи. Может быть строкой, массивом или потоковым ресурсом.?????????????
         FILE_APPEND
+//       FILE_APPEND добавляет данные в файл, а не перезаписывает.
     );
 }
 
+
+// функция от telegram API
 function telegramAPIRequest(string $method, ?array $params = null): array {
     $response = file_get_contents(
         TELEGRAM_API_URL . BOT_TOKEN . "/" . $method . "?" . http_build_query($params)
@@ -33,9 +42,14 @@ function setHook(bool $unset = false): void {
     exit();
 }
 
+// получить ответ по правилам
 function getAnswerByRules(string|int $request): string|int|null {
     $answer = null;
+//    пробегаемся циклом по массиву с ответами
     foreach (BOT_RULES as $rule) {
+//        если, существует ли значение в массиве,
+//                  то есть,
+//        ЕСЛИ СУЩЕСТВУЕТ ЗНАЧЕНИЕ $request В МАССИВЕ
         if (in_array($request, readDictionary($rule[REQUESTS_KEY]))) {
             $answer = getRandomWord($rule[RESPONSES_KEY][WORLDS_KEY]);
             if (isset($rule[RESPONSES_KEY][SIGNS_KEY]))  {
@@ -52,15 +66,20 @@ function getAnswerByRules(string|int $request): string|int|null {
     return $answer;
 }
 
+
+// функция getDictionaryArray в качестве параметра принимает строку "$fileName", возвращает массив
 function getDictionaryArray(string $fileName): array {
     $file = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
+//  переменной $file присваивается результат функции file_get_contents() она возвращает файл в виде строки
     if (!$file || !trim($file)) {
         throw new Exception("Файл {$fileName} не найден или пустой");
     }
+//    создаем переменную $worldsArray присваиваем ей массив строк исходя из наших МАТОВ (в нашем случае)
     $worldsArray = explode("\n", $file);
     if (empty($worldsArray)) {
         throw new Exception("Файл словаря {$fileName} неправильного формата");
     }
+//    возвращает функция массив
     return array_map("trim", $worldsArray);
 }
 
@@ -74,6 +93,8 @@ function getRandomWord(array|string $dictionary): string|int {
     return $word;
 }
 
+// функция readDictionary в качестве параметра принимает массив|строку, возвращает массив
+// если, $dictionary является строкой, тогда
 function readDictionary(string|array $dictionary): array {
     if (is_string($dictionary)) {
         $dictionary = getDictionaryArray($dictionary);
