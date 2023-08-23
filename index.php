@@ -28,7 +28,7 @@ try {
 
 
 //    далее срабатывает функция addLog($phpInput, "from_telegram")
-//    необходимо для добавления данных из Telegram в файл c логами
+//    необходима для добавления данных из Telegram в файл c логами
 //    первый параметр - массив данных от телеграмм API;
 //    второй параметр - "from_telegram" имя файла, куда записать данные.
     addLog($phpInput, "from_telegram");
@@ -47,6 +47,8 @@ try {
 
 //      переменной $params создаем новый ключ ["text"] и присваиваем ей результат условия,
 //      если getAnswerByRules($request)
+
+
         $params["text"] =
             getAnswerByRules($request)
             ?? "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?";
