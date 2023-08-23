@@ -50,6 +50,8 @@ try {
 
 
         $params["text"] =
+//            если какое то из выражений не пустое тогда выполняется первое, которое не пусто,
+//            самое последнее выражение должно быть не пустым, чтобы ?? сработало
             getAnswerByRules($request)
             ?? "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?";
         telegramAPIRequest("sendMessage", $params);

@@ -43,7 +43,7 @@ function setHook(bool $unset = false): void {
     exit();
 }
 
-// получить ответ по правилам
+// получить ответ по правилам функция возвращает ответ
 function getAnswerByRules(string|int $request): string|int|null {
     $answer = null;
 //    пробегаемся циклом по массиву с ответами
@@ -67,8 +67,9 @@ function getAnswerByRules(string|int $request): string|int|null {
     return $answer;
 }
 
-
-// функция getDictionaryArray в качестве параметра принимает строку "$fileName", возвращает массив !!!если у нас файл есть
+// эта функция нужна, если мы получаем строку и должны преобразовать в массив
+// функция getDictionaryArray в качестве параметра принимает строку "$fileName",
+// возвращает массив !!!если у нас файл есть
 function getDictionaryArray(string $fileName): array {
     $file = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
 //  переменной $file присваивается результат функции file_get_contents() она возвращает файл в виде строки
@@ -80,7 +81,7 @@ function getDictionaryArray(string $fileName): array {
     if (empty($worldsArray)) {
         throw new Exception("Файл словаря {$fileName} неправильного формата");
     }
-//    возвращает функция массив
+//    array_map ТРИМИТ КАЖДЫЙ ЭЛЕМЕНТ МАССИВА $worldsArray
     return array_map("trim", $worldsArray);
 }
 
@@ -98,6 +99,8 @@ function getRandomWord(array|string $dictionary): string|int {
 
 // функция readDictionary в качестве параметра принимает массив|строку, возвращает массив
 // если, $dictionary является строкой, тогда переменной $dictionary присваиваем результат функции
+// ЭТУ ФУНКЦИЮ ИСПОЛЬЗУЕМ ДЛЯ ЧТЕНИЯ ПЕРЕМЕННОЙ $dictionary, А ЭТО В СВОЮ ОЧЕРЕДЬ
+// НАШИ ПРАВИЛА МАССИВ И ФАЙЛ *offensive_words*
 function readDictionary(string|array $dictionary): array {
     if (is_string($dictionary)) {
 //        если это не массив
