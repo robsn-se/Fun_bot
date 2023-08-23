@@ -1,21 +1,14 @@
 <?php
-// функция addLog работает в качестве журнала событий
-// первый параметр любой тип данных
-// второй параметр имя файла (по умолчанию добавляется в файл "log")
+
 function addLog(mixed $data, string $fileName = "log"):void {
     file_put_contents(
-//      file_put_contents записывает данные в файл
         LOG_FOLDER ."/$fileName.log",
-//       filename Путь к файлу, куда записать данные.
         "-- " . date("H:i:s d-m-Y") . "\n" . var_export($data, true) . "\n\n",
-//       data Данные для записи. Может быть строкой, массивом или потоковым ресурсом.?????????????
         FILE_APPEND
-//       FILE_APPEND добавляет данные в файл, а не перезаписывает.
     );
 }
 
 
-// функция от telegram API
 function telegramAPIRequest(string $method, ?array $params = null): array {
     $response = file_get_contents(
         TELEGRAM_API_URL . BOT_TOKEN . "/" . $method . "?" . http_build_query($params)
@@ -28,7 +21,7 @@ function telegramAPIRequest(string $method, ?array $params = null): array {
         "requests_to_telegram"
     );
     if ($response) {
-        $response = json_decode($response, JSON_UNESCAPED_UNICODE);
+        $response = json_decode($response, true);
     }
     return $response;
 }
