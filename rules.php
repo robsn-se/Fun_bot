@@ -6,23 +6,30 @@ const SUB_RESPONSES_KEY = 3;
 const SIGNS_KEY = 1;
 const WORLDS_KEY = 2;
 
+const CALLBACK_DATA_DELIMITER = "<&%#!@*~_-+=/.^>";
+
+ $YES_NO_BUTTONS = [
+    ["text" => "Yes", "callback_data" => "yes"],
+    ["text" => "No", "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . "no"],
+];
+
 const BOT_RULES = [
     [
-        REQUESTS_KEY => ["hi", "hello", "hey", "прив", "привет","hi", "hello", "hey", "привет", "здарова", "здравствуй", "приветствую тебя человек", "добро пожаловать", "Моё почтение"],
+        REQUESTS_KEY => "welcome",
         RESPONSES_KEY => [
-            WORLDS_KEY => ["hi", "hello", "hey", "привет", "здарова", "здравствуй", "приветствую тебя человек", "добро пожаловать", "Моё почтение"],
+            WORLDS_KEY => "welcome",
             SIGNS_KEY => ["!", "!!", "!!!", "👍", ".", "😌", "👋", "🤝"],
         ],
     ],
     [
-        REQUESTS_KEY => ["пока", "до свидания", "good bay", "bay bay", "всего хорошего"],
+        REQUESTS_KEY => "parting",
         RESPONSES_KEY => [
-            WORLDS_KEY => ["пока", "до свидания", "good bay", "bay bay", "всего хорошего"],
+            WORLDS_KEY => "parting",
             SIGNS_KEY => ["!", "!!!", "👍", "👋",],
         ],
     ],
     [
-        REQUESTS_KEY => ["как дела", "как ты", "how are you", "whats app", "как живешь", "как сам", "как поживаешь"],
+        REQUESTS_KEY => "how_are_you",
         RESPONSES_KEY => [
             WORLDS_KEY => ["отлично, спасибо", "супер", "пойдет", "всё хорошо"],
             SIGNS_KEY => ["!", "!!!", "!!!", "👍", ],

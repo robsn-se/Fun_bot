@@ -22,24 +22,50 @@ try {
 
     addLog($phpInput, "from_telegram");
 
-
+    if (@$phpInput["callback_query"]) {
+        $params = [];
+        $callbackQueryParams = explode(CALLBACK_DATA_DELIMITER, $phpInput["callback_query"]["data"]);
+        if ($callbackQueryParams[1] == "no") {
+            $params["chat_id"] = $phpInput["callback_query"]["message"]["chat"]["id"];
+            $params["message_id"] = $phpInput["callback_query"]["message"]["message_id"];
+            $params["text"] = substr(
+                $phpInput["callback_query"]["message"]["text"],
+                0,
+                strpos($phpInput["callback_query"]["message"]["text"], "?") + 1
+            );
+        }
+        if ($callbackQueryParams[1] == "yes") {
+            $params["chat_id"] = $phpInput["callback_query"]["message"]["chat"]["id"];
+            $params["message_id"] = $phpInput["callback_query"]["message"]["message_id"];
+            $params["text"] = "В какую тему будет уместно добавить фразу '{$callbackQueryParams[2]}'?";
+            $dictionaryButtons = [];
+            foreach (array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]) as  $fileName) {
+                $dictionaryFile = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
+                $dictionaryTitle = trim(substr(
+                    $dictionaryFile,
+                    0,
+                    strpos($dictionaryFile, "\n")
+                ));
+                $dictionaryButtons[] = [
+                    "text" => $dictionaryTitle,
+                    "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName . CALLBACK_DATA_DELIMITER . $callbackQueryParams[2],
+                ];
+            }
+            $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2);
+        }
+        telegramAPIRequest("editMessageText", $params);
+    }
 
     if (@$phpInput["message"]) {
         $params["chat_id"] = $phpInput["message"]["chat"]["id"];
         $request = mb_strtolower($phpInput["message"]["text"]);
-        $params["text"] =
-            getAnswerByRules($request)
-
-            ?? "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?";
-//        $params["reply_markup"] = '{"inline_keyboard":[
-//    [
-//        {"text":"Yes", "callback_data":"1"},
-//        {"text":"No", "callback_data":"0"}
-//    ],
-//    [
-//        {"text":"maybe", "callback_data":"maybe"}
-//    ]
-//]}';
+        $params["text"] = getAnswerByRules($request);
+        if (!$params["text"]) {
+            $YES_NO_BUTTONS[0]["callback_data"] =
+                "add_to_dict" . CALLBACK_DATA_DELIMITER . "yes" . CALLBACK_DATA_DELIMITER . $request;
+            $params["reply_markup"] = createInlineButtons($YES_NO_BUTTONS, 2);
+            $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?\n\nДобавить слово в словарь?";
+        }
         telegramAPIRequest("sendMessage", $params);
     }
 }

@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a54c381-6310-4adc-bfaf-2daaad41a7c8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dictionary/how_are_you" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dictionary/how_old_are_you" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dictionary/parting" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dictionary/welcome" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dictionary/offensive_words" beforeDir="false" afterPath="$PROJECT_DIR$/dictionary/offensive_words" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rules.php" beforeDir="false" afterPath="$PROJECT_DIR$/rules.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +50,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DatabaseProject" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../catalogProject" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -80,6 +86,9 @@
       <workItem from="1691524444801" duration="915000" />
       <workItem from="1692436484477" duration="10096000" />
       <workItem from="1692595105974" duration="995000" />
+      <workItem from="1692939806722" duration="3863000" />
+      <workItem from="1693200134816" duration="3954000" />
+      <workItem from="1693500142022" duration="19518000" />
     </task>
     <servers />
   </component>

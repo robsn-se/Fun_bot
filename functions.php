@@ -68,12 +68,7 @@ function getDictionaryArray(string $fileName): array {
 
 function getRandomWord(array|string $dictionary): string|int {
     $dictionary = readDictionary($dictionary);
-    $word = $dictionary[rand(0, count($dictionary) - 1)];
-    if (is_string($word)) {
-//        $word[0] = mb_strtoupper($word[0]);
-        return $word;
-    }
-    return $word;
+    return $dictionary[rand(0, count($dictionary) - 1)];
 }
 
 function readDictionary(string|array $dictionary): array {
@@ -81,4 +76,23 @@ function readDictionary(string|array $dictionary): array {
         $dictionary = getDictionaryArray($dictionary);
     }
     return $dictionary;
+}
+
+
+function createInlineButtons(array $buttons, int $columnCount = 1): string {
+    $rowCounter = 0; // укладка ряда
+    $columnCounter = 0; // укладка в колонну
+    $result = []; // массив кнопок
+    foreach ($buttons as $button) {
+        if (!isset($result[$rowCounter])) {
+            $result[$rowCounter] = [];
+        }
+        $result[$rowCounter][] = $button;
+        $columnCounter++;
+        if($columnCounter % $columnCount) {
+            continue;
+        }
+        $rowCounter++;
+    }
+    return json_encode(["inline_keyboard" => $result], JSON_UNESCAPED_UNICODE);
 }
