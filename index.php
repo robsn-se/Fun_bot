@@ -51,7 +51,8 @@ try {
                     "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName . CALLBACK_DATA_DELIMITER . $callbackQueryParams[2],
                 ];
             }
-            $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2);
+            $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2
+            );
         }
         telegramAPIRequest("editMessageText", $params);
     }
