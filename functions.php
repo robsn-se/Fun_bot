@@ -95,3 +95,13 @@ function createInlineButtons(array $buttons, int $columnCount = 1): string {
     }
     return json_encode(["inline_keyboard" => $result], JSON_UNESCAPED_UNICODE);
 }
+
+function quotePhrase(string $phraseText):string {
+    return QUOTES . "$phraseText" . QUOTES;
+}
+
+function getQuotedPhrase(string $messageText):string {
+    preg_match_all("/.+" . QUOTES . "(.+)" . QUOTES . ".?/", $messageText, $matches);
+    addLog($matches, "matches");
+    return $matches[1][0];
+}
