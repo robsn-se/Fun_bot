@@ -6,10 +6,12 @@ const SUB_RESPONSES_KEY = 3;
 const SIGNS_KEY = 1;
 const WORLDS_KEY = 2;
 
-const CALLBACK_DATA_DELIMITER = "<&%#!@*~_-+=/.^>";
+const CALLBACK_DATA_DELIMITER = "<^>";
 
- $YES_NO_BUTTONS = [
-    ["text" => "Yes", "callback_data" => "yes"],
+const QUOTES = "@@";
+
+ const YES_NO_BUTTONS = [
+    ["text" => "Yes", "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . "yes"],
     ["text" => "No", "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . "no"],
 ];
 

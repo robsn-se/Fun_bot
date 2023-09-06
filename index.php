@@ -24,35 +24,51 @@ try {
 
     if (@$phpInput["callback_query"]) {
         $params = [];
+        $dictionaryButtons = [];
         $callbackQueryParams = explode(CALLBACK_DATA_DELIMITER, $phpInput["callback_query"]["data"]);
-        if ($callbackQueryParams[1] == "no") {
-            $params["chat_id"] = $phpInput["callback_query"]["message"]["chat"]["id"];
-            $params["message_id"] = $phpInput["callback_query"]["message"]["message_id"];
-            $params["text"] = substr(
-                $phpInput["callback_query"]["message"]["text"],
-                0,
-                strpos($phpInput["callback_query"]["message"]["text"], "?") + 1
-            );
-        }
-        if ($callbackQueryParams[1] == "yes") {
-            $params["chat_id"] = $phpInput["callback_query"]["message"]["chat"]["id"];
-            $params["message_id"] = $phpInput["callback_query"]["message"]["message_id"];
-            $params["text"] = "В какую тему будет уместно добавить фразу '{$callbackQueryParams[2]}'?";
-            $dictionaryButtons = [];
-            foreach (array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]) as  $fileName) {
-                $dictionaryFile = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
-                $dictionaryTitle = trim(substr(
-                    $dictionaryFile,
+        $params["chat_id"] = $phpInput["callback_query"]["message"]["chat"]["id"];
+        $params["message_id"] = $phpInput["callback_query"]["message"]["message_id"];
+        if ($callbackQueryParams[0] == "add_to_dict") {
+            if ($callbackQueryParams[1] == "no") {
+                $params["text"] = substr(
+                    $phpInput["callback_query"]["message"]["text"],
                     0,
-                    strpos($dictionaryFile, "\n")
-                ));
-                $dictionaryButtons[] = [
-                    "text" => $dictionaryTitle,
-                    "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName . CALLBACK_DATA_DELIMITER . $callbackQueryParams[2],
-                ];
+                    strpos($phpInput["callback_query"]["message"]["text"], "?") + 1
+                );
             }
-            $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2
-            );
+            elseif ($callbackQueryParams[1] == "yes") {
+                preg_match_all(".+" . QUOTES . "(.+)" . QUOTES . ".?", $phpInput["callback_query"]["message"]["text"], $matches);
+                addLog($matches, "matches");
+                $params["text"] = "В какую тему будет уместно добавить фразу '{$callbackQueryParams[2]}'?";
+                foreach (array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]) as  $fileName) {
+                    $dictionaryFile = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
+                    $dictionaryTitle = trim(substr(
+                        $dictionaryFile,
+                        0,
+                        strpos($dictionaryFile, "\n")
+                    ));
+                    $dictionaryButtons[] = [
+                        "text" => $dictionaryTitle,
+                        "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName . CALLBACK_DATA_DELIMITER . $callbackQueryParams[2],
+                    ];
+                }
+            }
+            else {
+                if (!in_array($callbackQueryParams[1], array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]))) {
+                    throw new Exception("Такой словарь не существует!");
+                }
+                if (!file_put_contents(
+                    DICTIONARY_FOLDER . "/from_users/" . $callbackQueryParams[1],
+                    $callbackQueryParams[2] . "\n",
+                    FILE_APPEND
+                )){
+                    throw new Exception("Не удалось сохранить фразу!");
+                }
+                $params["text"] = "Фраза '{$callbackQueryParams[2]}' отправлена на модерацию и будет добавлена в ближайшее время в словарь, при прохождении проверки!";
+            }
+            if (!empty($dictionaryButtons)) {
+                $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2);
+            }
         }
         telegramAPIRequest("editMessageText", $params);
     }
@@ -62,10 +78,8 @@ try {
         $request = mb_strtolower($phpInput["message"]["text"]);
         $params["text"] = getAnswerByRules($request);
         if (!$params["text"]) {
-            $YES_NO_BUTTONS[0]["callback_data"] =
-                "add_to_dict" . CALLBACK_DATA_DELIMITER . "yes" . CALLBACK_DATA_DELIMITER . $request;
-            $params["reply_markup"] = createInlineButtons($YES_NO_BUTTONS, 2);
-            $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, '{$request}'?\n\nДобавить слово в словарь?";
+            $params["reply_markup"] = createInlineButtons(YES_NO_BUTTONS, 2);
+            $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, " . QUOTES . $request . QUOTES . "?\n\nДобавить слово в словарь?";
         }
         telegramAPIRequest("sendMessage", $params);
     }
