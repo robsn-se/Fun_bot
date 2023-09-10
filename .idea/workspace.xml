@@ -3,6 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="3a54c381-6310-4adc-bfaf-2daaad41a7c8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rules.php" beforeDir="false" afterPath="$PROJECT_DIR$/rules.php" afterDir="false" />
+>>>>>>> d5afc9b441ff8128df372bb43b9bb5913ffee01c
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +39,7 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -47,6 +54,21 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+>>>>>>> d5afc9b441ff8128df372bb43b9bb5913ffee01c
   <component name="RunManager">
     <configuration name="rest-api_2 | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/rest-api_2.http" requestIdentifier="#1" runType="Run single request">
       <method v="2" />
@@ -86,10 +108,15 @@
       <workItem from="1693745718028" duration="6341000" />
       <workItem from="1693894261672" duration="1283000" />
       <workItem from="1693915555169" duration="606000" />
+<<<<<<< HEAD
       <workItem from="1694018353703" duration="10649000" />
       <workItem from="1694067785353" duration="2517000" />
       <workItem from="1694248362115" duration="637000" />
       <workItem from="1694352818552" duration="602000" />
+=======
+      <workItem from="1694018353703" duration="10001000" />
+      <workItem from="1694029639455" duration="1910000" />
+>>>>>>> d5afc9b441ff8128df372bb43b9bb5913ffee01c
     </task>
     <servers />
   </component>

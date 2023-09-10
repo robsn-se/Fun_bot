@@ -7,7 +7,6 @@ try {
     if (@$_GET["hook"]) {
         setHook((bool) $_GET["hook"]);
     }
-
     if (@$_GET["text"]) {
         $params["chat_id"] = ADMIN_ID;
         $params["text"] = @$_GET["text"] ?: "check";
@@ -21,6 +20,10 @@ try {
     }
 
     addLog($phpInput, "from_telegram");
+    telegramAPIRequest("sendChatAction", [
+        "action" => "typing",
+        "chat_id" => @$phpInput["callback_query"]["message"]["chat"]["id"] ?? @$phpInput["message"]["chat"]["id"]
+    ]);
 
     if (@$phpInput["callback_query"]) {
         $params = [];
@@ -37,9 +40,8 @@ try {
                 );
             }
             elseif ($callbackQueryParams[1] == "yes") {
-                preg_match_all(".+" . QUOTES . "(.+)" . QUOTES . ".?", $phpInput["callback_query"]["message"]["text"], $matches);
-                addLog($matches, "matches");
-                $params["text"] = "В какую тему будет уместно добавить фразу '{$callbackQueryParams[2]}'?";
+                $phrase = getQuotedPhrase($phpInput["callback_query"]["message"]["text"]);
+                $params["text"] = "В какую тему будет уместно добавить фразу " . quotePhrase($phrase) . "?";
                 foreach (array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]) as  $fileName) {
                     $dictionaryFile = file_get_contents(DICTIONARY_FOLDER . "/" . $fileName);
                     $dictionaryTitle = trim(substr(
@@ -49,22 +51,23 @@ try {
                     ));
                     $dictionaryButtons[] = [
                         "text" => $dictionaryTitle,
-                        "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName . CALLBACK_DATA_DELIMITER . $callbackQueryParams[2],
+                        "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . $fileName,
                     ];
                 }
             }
             else {
+                $phrase = getQuotedPhrase($phpInput["callback_query"]["message"]["text"]);
                 if (!in_array($callbackQueryParams[1], array_diff(scandir(DICTIONARY_FOLDER), ["..", ".", "from_users"]))) {
                     throw new Exception("Такой словарь не существует!");
                 }
                 if (!file_put_contents(
                     DICTIONARY_FOLDER . "/from_users/" . $callbackQueryParams[1],
-                    $callbackQueryParams[2] . "\n",
+                    $phrase . "\n",
                     FILE_APPEND
                 )){
                     throw new Exception("Не удалось сохранить фразу!");
                 }
-                $params["text"] = "Фраза '{$callbackQueryParams[2]}' отправлена на модерацию и будет добавлена в ближайшее время в словарь, при прохождении проверки!";
+                $params["text"] = "Фраза " . quotePhrase($phrase) . " отправлена на модерацию и будет добавлена в ближайшее время в словарь, при прохождении проверки!";
             }
             if (!empty($dictionaryButtons)) {
                 $params["reply_markup"] = createInlineButtons($dictionaryButtons, 2);
@@ -79,12 +82,23 @@ try {
         $params["text"] = getAnswerByRules($request);
         if (!$params["text"]) {
             $params["reply_markup"] = createInlineButtons(YES_NO_BUTTONS, 2);
-            $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, " . QUOTES . $request . QUOTES . "?\n\nДобавить слово в словарь?";
+            $params["text"] = "{$phpInput["message"]["from"]["first_name"]}, я не понимаю тебя!\nЧто значит, " . quotePhrase($request) . "?\n\nДобавить слово в словарь?";
         }
         telegramAPIRequest("sendMessage", $params);
     }
 }
 catch (Throwable $e) {
+    if (@$phpInput["callback_query"]) {
+        telegramAPIRequest("answerCallbackQuery", [
+            "callback_query_id" =>$phpInput["callback_query"]["id"],
+            "text" => "что то пошло не так, приносим свои извинения!"
+        ]);
+    } elseif(@$phpInput["message"]) {
+        telegramAPIRequest("sendMessage", [
+            "chat_id" => $phpInput["message"]["chat"]["id"],
+            "text" => "Что то пошло не так, приносим свои извинения!",
+        ]);
+    }
     addLog(
         "{$e->getMessage()} | {$e->getFile()}({$e->getLine()}) \n{$e->getTraceAsString()} \n\n",
         "errors"

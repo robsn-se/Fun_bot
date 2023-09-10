@@ -8,7 +8,7 @@ const WORLDS_KEY = 2;
 
 const CALLBACK_DATA_DELIMITER = "<^>";
 
-const QUOTES = "@@";
+const QUOTES = "'''";
 
  const YES_NO_BUTTONS = [
     ["text" => "Yes", "callback_data" => "add_to_dict" . CALLBACK_DATA_DELIMITER . "yes"],
