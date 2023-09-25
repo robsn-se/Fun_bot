@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="900ec73d-ba41-4953-af14-527702fb1a5a" name="fun_bot_Ruben" url="http://31.31.198.123">
-        <fileTransfer host="31.31.198.123" port="21">
+        <fileTransfer rootFolder="/funBot" host="31.31.198.123" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
