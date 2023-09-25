@@ -14,7 +14,7 @@ function addLog(mixed $data, string $fileName = "log"):void {
     );
 }
 
- // функция от telegram API  позволяет общаться с сервером телеграм
+ // функция от telegram API позволяет общаться с сервером телеграм
 function telegramAPIRequest(string $method, ?array $params = null): array {
 //     переменная $response отправляет наш запрос и получает ответ
     $response = file_get_contents(
