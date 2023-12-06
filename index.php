@@ -4,7 +4,7 @@ require_once "functions.php";
 require_once "rules.php";
 
 try {
-    if (@$_GET["hook"]) {
+    if (isset($_GET["hook"])) {
         setHook((bool) $_GET["hook"]);
     }
     if (@$_GET["text"]) {
