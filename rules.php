@@ -77,8 +77,22 @@ const BOT_RULES = [
     [
         REQUESTS_KEY => "offensive_words",
         RESPONSES_KEY => [
-            WORLDS_KEY => ["эй, не матерись",],
-            SIGNS_KEY => ["!", "!!", "!!!", "😢,", "😕", "😤", "🫣", "🫠", "🤨"],
+            WORLDS_KEY => ["эй не матерись",],
+//            SIGNS_KEY => ["!", "!!", "!!!", "😢,", "😕", "😤", "🫣", "🫠", "🤨"],
         ],
     ],
+    [
+        REQUESTS_KEY => "weather",
+        RESPONSES_KEY => [
+            WORLDS_KEY => ["посмотри здесь пожалуйста https://yandex.ru/pogoda?via=hl&lang=ru",],
+            SIGNS_KEY => ["!", "!!!", "!!!", "👍"],
+        ],
+    ],
+//    [
+//        REQUESTS_KEY => "weather",
+//        RESPONSES_KEY => [
+//            WORLDS_KEY => ["посмотри здесь пожалуйста https://yandex.ru/pogoda?via=hl&lang=ru",],
+//            SIGNS_KEY => ["!", "!!!", "!!!", "👍"],
+//        ],
+//    ],
 ];
