@@ -9,9 +9,9 @@ function addLog(mixed $data, string $fileName = "log"):void {
 }
 
 function telegramAPIRequest(string $method, ?array $params = null): array {
-    /** @var string $BOT_TOKEN */
+
     $response = file_get_contents(
-        TELEGRAM_API_URL . $BOT_TOKEN . "/" . $method . "?" . http_build_query($params)
+        TELEGRAM_API_URL . env("BOT_TOKEN") . "/" . $method . "?" . http_build_query($params)
     );
     addLog([
         "method" => $method,
